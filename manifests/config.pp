@@ -82,6 +82,6 @@ define s3cmd::config(
     ensure  => $ensure,
     content => template('s3cmd/s3cfg.erb'),
     owner   => $user,
-    mode    => '0644',
+    mode    => '0600',
   }
 }
