@@ -7,10 +7,19 @@ class s3cmd::params {
 
   case $::osfamily {
     'RedHat': {
-      # s3cmd is not available by default so we had to add the repository
-      $description = "Tools for managing Amazon S3 - Simple Storage Service (RHEL_${::operatingsystemmajrelease})"
-      $baseurl = "http://s3tools.org/repo/RHEL_${::operatingsystemmajrelease}/"
-      $gpgkey = "http://s3tools.org/repo/RHEL_${::operatingsystemmajrelease}/repodata/repomd.xml.key"
+      case $::operatingsystem {
+        'Amazon': {
+          $description = 'Tools for managing Amazon S3 - Simple Storage Service (RHEL_6)'
+          $baseurl = 'http://s3tools.org/repo/RHEL_6/'
+          $gpgkey = 'http://s3tools.org/repo/RHEL_6/repodata/repomd.xml.key'
+        }
+        default: {
+          # s3cmd is not available by default so we had to add the repository
+          $description = "Tools for managing Amazon S3 - Simple Storage Service (RHEL_${::operatingsystemmajrelease})"
+          $baseurl = "http://s3tools.org/repo/RHEL_${::operatingsystemmajrelease}/"
+          $gpgkey = "http://s3tools.org/repo/RHEL_${::operatingsystemmajrelease}/repodata/repomd.xml.key"
+        }
+      }
     }
     'Debian': {
       $package_name ='s3cmd'
