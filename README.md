@@ -4,6 +4,10 @@
 
 Install s3cmd on Ubuntu/Debian/RedHat/CentOS/Amazon AMI from OS repo or in RedHat/CentOS case from the [s3tools repository](http://s3tools.org/s3cmd).
 
+Tested with Travis
+
+[![Build Status](https://travis-ci.org/n1tr0g/golja-s3cmd.png)](https://travis-ci.org/n1tr0g/golja-s3cmd)
+
 ##Installation
 
      $ puppet module install golja/s3cmd
@@ -12,14 +16,18 @@ Install s3cmd on Ubuntu/Debian/RedHat/CentOS/Amazon AMI from OS repo or in RedHa
 
 ###Install s3cmd package
 
-    include s3cmd
+```puppet
+include '::s3cmd'
+```
 
 ###Create .s3cfg configuration for user root
 
-    s3cmd::config {'root':
-      aws_access_key => 'AUIAJYSJQT5WQ5S7EISQ',
-      aws_secret_key  => 'Kd24SfkdcQfsS4294MSKAS432',
-    }
+```puppet
+s3cmd::config {'root':
+  aws_access_key => 'AUIAJYSJQT5WQ5S7EISQ',
+  aws_secret_key  => 'Kd24SfkdcQfsS4294MSKAS432',
+}
+```
 
 ###Parameters
 
@@ -69,10 +77,17 @@ system username which defines the .s3cfg file location. *Default: $title*
 Overwrites the default home dir of the user in case you are not
 using /home or /root for root. *Default: undef*
 
-
 #####`path_to_gpg`
 
 Path to GPG if encryption is enabled. *Default: /usr/bin/gpg*
+
+#####`proxy_host`
+
+Proxy server. *Default: undef*
+
+#####`proxy_port`
+
+Proxy port. *Default: undef*
 
 ## Supported Platforms
 
@@ -85,4 +100,3 @@ Path to GPG if encryption is enabled. *Default: /usr/bin/gpg*
 ## License
 
 See LICENSE file
-
