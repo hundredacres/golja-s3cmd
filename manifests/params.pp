@@ -38,4 +38,7 @@ class s3cmd::params {
       fail("Osfamily ${::osfamily} is not supported")
     }
   }
+  $ensure = 'present'
+  $manage_repo = false
+  $source_repo = 's3cmd'
 }

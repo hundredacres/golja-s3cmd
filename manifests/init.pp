@@ -18,26 +18,33 @@
 #
 
 class s3cmd(
-  $ensure = 'present',
-  $manage_repo = false,
+  $ensure = $s3cmd::params::ensure,
+  $manage_repo = $s3cmd::params::ensure,
+  $source_repo = $s3cmd::params::source_repo,
 ) inherits s3cmd::params {
+
+  validate_bool($manage_repo)
 
   if !($ensure in ['present', 'absent']) {
     fail('ensure must be either present or absent')
   }
   if $manage_repo != false {
-    if $::osfamily == 'RedHat' or $::operatingsystem == 'Amazon' {
-      yumrepo { 's3tools':
-        descr    => $s3cmd::params::description,
-        baseurl  => $s3cmd::params::baseurl,
-        gpgkey   => $s3cmd::params::gpgkey,
-        gpgcheck => 1,
-        enabled  => 1,
-        } -> Package['s3cmd']
+    if $source_repo == 'epel' {
+      include ::yum::repo::s3cmd
+    } else {
+      if $::osfamily == 'RedHat' or $::operatingsystem == 'Amazon' {
+        yumrepo { 's3tools':
+          descr    => $s3cmd::params::description,
+          baseurl  => $s3cmd::params::baseurl,
+          gpgkey   => $s3cmd::params::gpgkey,
+          gpgcheck => 1,
+          enabled  => 1,
+          } -> Package['s3cmd']
+      }
     }
-  }
-  package {'s3cmd':
-    ensure => $ensure,
-    name   => $s3cmd::params::package_name,
+    package {'s3cmd':
+      ensure => $ensure,
+      name   => $s3cmd::params::package_name,
+    }
   }
 }
