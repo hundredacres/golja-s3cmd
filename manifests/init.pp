@@ -18,9 +18,10 @@
 #
 
 class s3cmd(
-  $ensure = $s3cmd::params::ensure,
-  $manage_repo = $s3cmd::params::manage_repo,
-  $source_repo = $s3cmd::params::source_repo,
+  $ensure       = $s3cmd::params::ensure,
+  $manage_repo  = $s3cmd::params::manage_repo,
+  $package_name = $s3cmd::params::package_name,
+  $source_repo  = $s3cmd::params::source_repo,
 ) inherits s3cmd::params {
 
   validate_bool($manage_repo)
@@ -42,9 +43,9 @@ class s3cmd(
           } -> Package['s3cmd']
       }
     }
-    package {'s3cmd':
-      ensure => $ensure,
-      name   => $s3cmd::params::package_name,
-    }
+  }
+  package {'s3cmd':
+    ensure => $ensure,
+    name   => $package_name,
   }
 }

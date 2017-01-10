@@ -20,6 +20,7 @@ class s3cmd::params {
           $gpgkey = "http://s3tools.org/repo/RHEL_${::operatingsystemmajrelease}/repodata/repomd.xml.key"
         }
       }
+      $package_name = 's3cmd'
     }
     'Debian': {
       $package_name ='s3cmd'
